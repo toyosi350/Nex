@@ -73,43 +73,61 @@ export function ListPage({
     </div>
   )
 
+
   return (
     <PermissionGate permission={permission}>
-      <PageHeader title={title} subtitle={subtitle} icon={icon} actions={toolbar && null} />
-      {toolbar}
-      <DataTable
-        columns={columns}
-        rows={items}
-        rowKey={keyField}
-        loading={isFetching}
-        error={isError ? error : null}
-        onRetry={refetch}
-        onRowClick={onRowClick}
-        emptyTitle={emptyTitle}
-        emptyMessage={emptyMessage}
-        pagination={{
-          page: list.page,
-          totalPages: data?.totalPages || 1,
-          total,
-          perPage: list.perPage,
-          onPerPageChange: (n) => { list.setPerPage(n); list.setPage(1) },
-          onPageChange: list.setPage,
-          sortKey: list.sortBy,
-          sortDirection: list.sortDir.toLowerCase(),
-          onSort: list.onSort,
-          disabled: isFetching,
-        }}
-      />
-      {canCreate && createForm && (
-        <Drawer
-          open={modal.isOpen}
-          onClose={modal.close}
-          title={createTitle || `Create ${title.replace(/s$/, '')}`}
-          width={560}
-        >
-          {modal.isOpen && (() => { const CreateForm = createForm; return <CreateForm onDone={modal.close} /> })()}
-        </Drawer>
-      )}
+      <div className="list-page">
+        <PageHeader
+          title={title}
+          subtitle={subtitle}
+          icon={icon}
+          actions={null}
+        />
+
+        {toolbar}
+
+        <DataTable
+          columns={columns}
+          rows={items}
+          rowKey={keyField}
+          loading={isFetching}
+          error={isError ? error : null}
+          onRetry={refetch}
+          onRowClick={onRowClick}
+          emptyTitle={emptyTitle}
+          emptyMessage={emptyMessage}
+          pagination={{
+            page: list.page,
+            totalPages: data?.totalPages || 1,
+            total,
+            perPage: list.perPage,
+            onPerPageChange: (n) => {
+              list.setPerPage(n)
+              list.setPage(1)
+            },
+            onPageChange: list.setPage,
+            sortKey: list.sortBy,
+            sortDirection: list.sortDir.toLowerCase(),
+            onSort: list.onSort,
+            disabled: isFetching,
+          }}
+        />
+
+        {canCreate && createForm && (
+          <Drawer
+            open={modal.isOpen}
+            onClose={modal.close}
+            title={createTitle || `Create ${title.replace(/s$/, '')}`}
+            width={560}
+          >
+            {modal.isOpen &&
+              (() => {
+                const CreateForm = createForm
+                return <CreateForm onDone={modal.close} />
+              })()}
+          </Drawer>
+        )}
+      </div>
     </PermissionGate>
   )
 }

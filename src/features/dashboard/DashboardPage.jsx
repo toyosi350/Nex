@@ -304,7 +304,7 @@ export function DashboardPage() {
     data.activities || []
 
   return (
-    <div className="stack">
+  <div className="dashboard-page stack">
 
       {/* =====================================================
           WELCOME
