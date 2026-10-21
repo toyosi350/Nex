@@ -74,13 +74,17 @@ export function AppShell({
           onClick={() => setMobileOpen(false)}
         />
 
+                
         <SidebarNav
           sections={sections}
-          collapsed={collapsed}
+          collapsed={mobileOpen ? false : collapsed}
           onNavigate={() => setMobileOpen(false)}
         />
 
-        <SidebarFooter collapsed={collapsed} />
+        <SidebarFooter
+          collapsed={mobileOpen ? false : collapsed}
+        />
+
       </aside>
 
       {mobileOpen && (

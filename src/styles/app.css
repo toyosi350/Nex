@@ -3810,3 +3810,603 @@ table tbody td {
     transform: none;
   }
 }
+
+/* Sign-in and authentication card spacing */
+.auth-card {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 32px;
+}
+
+/* Comfortable spacing on tablets and mobile phones */
+@media (max-width: 768px) {
+  .auth-card {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 22px;
+  }
+}
+
+/* =========================================================
+   NEX — AUTHENTICATION CARD SPACING
+   ========================================================= */
+
+.auth-card {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+/* Heading and subtitle */
+.auth-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+}
+
+.auth-card-header h1 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.auth-card-header p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Form layout */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+/* Keep each label, input, and error message together */
+.auth-form > * {
+  min-width: 0;
+}
+
+.auth-form input,
+.auth-form select,
+.auth-form textarea {
+  width: 100%;
+}
+
+/* Remember me and forgot password */
+.auth-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+}
+
+/* Sign-in button */
+.auth-form button[type="submit"] {
+  min-height: 48px;
+  margin-top: 2px;
+}
+
+/* Demo account section */
+.auth-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+.auth-demo-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  font-weight: 650;
+}
+
+.auth-demo-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.auth-demo-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  min-width: 0;
+  min-height: 76px;
+  padding: 13px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  text-align: left;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.auth-demo-item:hover {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+}
+
+.auth-demo-item-active {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+  box-shadow: var(--shadow-focus);
+}
+
+.auth-demo-label {
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.auth-demo-mail {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 100%;
+  color: var(--text);
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
+}
+
+/* Footer */
+.auth-card-foot {
+  margin: 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  line-height: 1.7;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .auth-card {
+    padding: 28px;
+    gap: 23px;
+  }
+
+  .auth-form {
+    gap: 19px;
+  }
+
+  .auth-demo-list {
+    gap: 10px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 22px;
+    gap: 21px;
+  }
+
+  .auth-form {
+    gap: 18px;
+  }
+
+  .auth-row {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .auth-demo-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .auth-demo-item {
+    min-height: 68px;
+    padding: 12px;
+  }
+
+  .auth-card-foot {
+    padding-top: 15px;
+  }
+}
+
+/* =========================================================
+   NEX — MOBILE SIDEBAR OVERLAY
+   Keep the sidebar above the topbar and page content.
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .shell {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .shell .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1001;
+
+    display: flex;
+    flex-direction: column;
+
+    width: min(300px, 86vw);
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+
+    background: #ffffff;
+    box-shadow: 12px 0 35px rgba(15, 23, 42, 0.14);
+
+    transform: translateX(-105%);
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+      transform 260ms ease,
+      visibility 260ms ease;
+  }
+
+  /* Open the sidebar above the entire application */
+  .shell .sidebar.sidebar-mobile-open {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* Dark overlay covers the topbar and page content */
+  .shell .sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: block;
+    background: rgba(15, 23, 42, 0.55);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+
+    cursor: pointer;
+    animation: nexBackdropIn 180ms ease-out both;
+  }
+
+  /* The page remains underneath the overlay */
+  .shell .shell-main {
+    position: relative;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .shell .topbar {
+    z-index: 5;
+  }
+
+  /* Let navigation occupy available sidebar space */
+  .shell .sidebar-nav {
+    flex: 1 0 auto;
+  }
+
+  .shell .sidebar-footer {
+    flex-shrink: 0;
+    margin-top: auto;
+    background: #ffffff;
+  }
+}
+
+@keyframes nexBackdropIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .shell .sidebar,
+  .shell .sidebar-backdrop {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* MOBILE SIDEBAR: SHOW ALL MENU ITEMS */
+@media (max-width: 900px) {
+  .shell .sidebar.sidebar-mobile-open {
+    width: min(300px, 86vw);
+    max-width: 86vw;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Show every section heading */
+  .shell .sidebar .nav-section-title {
+    display: block;
+  }
+
+  /* Keep navigation labels and badges visible */
+  .shell .sidebar .nav-link {
+    width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 11px 16px;
+  }
+
+  .shell .sidebar .nav-label {
+    display: inline;
+    flex: 1;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .shell .sidebar .nav-badge {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  .shell .sidebar .nav-section-items {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* Keep the account details and footer available */
+  .shell .sidebar .sidebar-footer {
+    position: relative;
+    display: block;
+    flex-shrink: 0;
+    margin-top: auto;
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+    background: #fff;
+  }
+
+  .shell .sidebar .sidebar-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .shell .sidebar .sidebar-profile-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .shell .sidebar .sidebar-profile-menu {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 900px) {
+  .shell .sidebar.sidebar-mobile-open {
+    position: fixed !important;
+    inset: 0 auto 0 0;
+    width: min(300px, 86vw) !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box;
+    z-index: 1001 !important;
+    background: #fff;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .shell .sidebar.sidebar-mobile-open .sidebar-brand {
+    flex-shrink: 0;
+  }
+
+  .shell .sidebar.sidebar-mobile-open .sidebar-nav {
+    display: block !important;
+    flex: 0 0 auto !important;
+    width: 100%;
+    min-height: auto !important;
+    max-height: none !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding-bottom: 20px;
+  }
+
+  .shell .sidebar.sidebar-mobile-open .nav-section {
+    display: block !important;
+    width: 100%;
+  }
+
+  .shell .sidebar.sidebar-mobile-open .nav-section-title {
+    display: block !important;
+  }
+
+  .shell .sidebar.sidebar-mobile-open .nav-section-items {
+    display: flex !important;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .shell .sidebar.sidebar-mobile-open .nav-link {
+    display: flex !important;
+    width: 100%;
+    min-height: 46px;
+    height: auto;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    gap: 12px;
+  }
+
+  .shell .sidebar.sidebar-mobile-open .nav-label {
+    display: inline !important;
+    flex: 1;
+    min-width: 0;
+    white-space: normal;
+  }
+
+  .shell .sidebar.sidebar-mobile-open .sidebar-footer {
+    display: block !important;
+    position: relative;
+    flex: 0 0 auto;
+    margin-top: 0;
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Improve sidebar text readability */
+.shell .sidebar {
+  color: #fff;
+}
+
+.shell .sidebar .sidebar-brand strong,
+.shell .sidebar .sidebar-brand small,
+.shell .sidebar .nav-section-title,
+.shell .sidebar .nav-label,
+.shell .sidebar .sidebar-profile-text strong,
+.shell .sidebar .sidebar-profile-text small {
+  color: #fff !important;
+  opacity: 1 !important;
+}
+
+/* Make navigation icons clearly visible */
+.shell .sidebar .nav-icon {
+  color: #475569 !important;
+  opacity: 1 !important;
+}
+
+/* Section headings */
+.shell .sidebar .nav-section-title {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* Improve link readability */
+.shell .sidebar .nav-link {
+  color: #334155 !important;
+  font-weight: 500;
+  opacity: 1 !important;
+}
+
+/* Highlight the active page */
+.shell .sidebar .nav-link.nav-link-active {
+  color: #0f7a4a !important;
+  background: #e8f5ed !important;
+  font-weight: 700;
+}
+
+.shell .sidebar .nav-link.nav-link-active .nav-icon,
+.shell .sidebar .nav-link.nav-link-active .nav-label {
+  color: #0f7a4a !important;
+}
+
+/* Make profile menu options readable */
+.shell .sidebar .sidebar-profile-menu a,
+.shell .sidebar .sidebar-profile-menu button {
+  color: #1e293b !important;
+  font-weight: 500;
+  opacity: 1 !important;
+}
+
+/* Ensure the mobile sidebar keeps strong contrast */
+@media (max-width: 900px) {
+  .shell .sidebar.sidebar-mobile-open {
+    color: #1e293b;
+    background: #ffffff;
+  }
+
+  .shell .sidebar.sidebar-mobile-open .nav-label,
+  .shell .sidebar.sidebar-mobile-open .nav-section-title {
+    color: #1e293b !important;
+    opacity: 1 !important;
+  }
+}
+.shell .sidebar .sidebar-brand strong,
+.shell .sidebar .sidebar-brand small {
+  color: #ffffff !important;
+}
+
+/* Keep the NEX brand title white on desktop and mobile */
+.shell .sidebar .sidebar-brand strong {
+  color: #ffffff !important;
+}
+
+/* Keep the subtitle white too, if present */
+.shell .sidebar .sidebar-brand small {
+  color: #ffffff !important;
+}
+
+/* Final sidebar responsive fixes */
+.sidebar .sidebar-brand-text strong {
+  color: #ffffff !important;
+}
+
+.sidebar .sidebar-brand-text small {
+  color: #f5ead7 !important;
+}
+
+/* Restore the full navigation when the collapsed sidebar
+   opens as a mobile drawer. */
+@media (max-width: 900px) {
+  .shell-collapsed .sidebar.sidebar-mobile-open
+    .sidebar-brand-text {
+    display: flex !important;
+  }
+
+  .shell-collapsed .sidebar.sidebar-mobile-open
+    .nav-section-title {
+    display: block !important;
+  }
+
+  .shell-collapsed .sidebar.sidebar-mobile-open
+    .nav-label {
+    display: inline !important;
+  }
+
+  .shell-collapsed .sidebar.sidebar-mobile-open
+    .nav-badge,
+  .shell-collapsed .sidebar.sidebar-mobile-open
+    .sidebar-profile-text,
+  .shell-collapsed .sidebar.sidebar-mobile-open
+    .sidebar-caret {
+    display: initial !important;
+  }
+
+  .shell-collapsed .sidebar.sidebar-mobile-open
+    .nav-link {
+    justify-content: flex-start;
+  }
+}
