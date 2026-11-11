@@ -25,9 +25,11 @@ const slugify = (value = "") =>
 
 /* Canonical storefront categories — the same slugs the backend's
  * /shop/* endpoints filter by (see src/constants/shop.js). */
+const DEALS_CATEGORY_SLUG = "deals-and-offers";
+
 const categoryList = [
   ...SHOP_CATEGORIES,
-  { slug: "deals", name: "Deals & Offers" },
+  { slug: DEALS_CATEGORY_SLUG, name: "Deals & Offers" },
 ];
 
 const activeCategoryFor = (slug) =>
@@ -115,14 +117,15 @@ export default function Category() {
  
   const filteredProducts = useMemo(() => {
     let result = [...products];
+    const category = activeCategoryFor(categorySlug);
 
-    if (categorySlug === "deals") {
+    if (categorySlug === DEALS_CATEGORY_SLUG) {
       result = result.filter((product) => discountPercent(product) > 0);
-    } else if (activeCategory) {
+    } else if (category) {
       result = result.filter(
         (product) =>
-          (product.categorySlug || product.category) === activeCategory.slug ||
-          product.category === activeCategory.name
+          (product.categorySlug || product.category) === category.slug ||
+          product.category === category.name
       );
     }
 
@@ -180,7 +183,7 @@ export default function Category() {
     return result;
   }, [
     products,
-    selectedCategory,
+    categorySlug,
     search,
     minPrice,
     maxPrice,

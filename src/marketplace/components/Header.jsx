@@ -117,7 +117,7 @@ const categories = [
     items: ["Safety", "Material Handling", "Packaging"],
   },
   {
-    slug: "deals",
+    slug: "deals-and-offers",
     name: "Deals & Offers",
     description: "Find something good for less",
     items: ["Today's Deals", "Clearance", "Special Offers"],

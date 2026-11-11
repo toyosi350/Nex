@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import useProducts from "../hooks/useProducts";
@@ -8,8 +8,13 @@ import { discountPercent, formatMoney } from "../context/ShopContext";
 
 export default function SalesSection() {
   const [activeIndex, setActiveIndex] = useState(null);
+  const navigate = useNavigate();
 
   const { products } = useProducts();
+
+  const openProduct = (product) => {
+    navigate(`/product/${product.id}`, { state: { product } });
+  };
 
   const saleProducts = useMemo(() => {
     return products
@@ -41,11 +46,7 @@ export default function SalesSection() {
               }`}
               onMouseEnter={() => setActiveIndex(index)}
               onMouseLeave={() => setActiveIndex(null)}
-              onClick={() =>
-                setActiveIndex((current) =>
-                  current === index ? null : index
-                )
-              }
+              onClick={() => openProduct(product)}
               animate={{
                 flex: isActive ? 3 : 1,
               }}
@@ -86,7 +87,8 @@ export default function SalesSection() {
                 </div>
 
                 <Link
-                  to="/categories/deals-and-offers"
+                  to={`/product/${product.id}`}
+                  state={{ product }}
                   className="nx-sales-explore-link"
                   onClick={(event) => event.stopPropagation()}
                 >
