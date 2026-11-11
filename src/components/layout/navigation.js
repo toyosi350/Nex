@@ -34,6 +34,7 @@ import {
   MdPersonOutline,
   MdOutlineTune,
   MdHelpOutline,
+  MdShoppingBag,
 } from 'react-icons/md'
 
 export const PLATFORM_NAV = [
@@ -41,6 +42,7 @@ export const PLATFORM_NAV = [
     label: 'Overview',
     items: [
       { label: 'Dashboard', path: '/admin', icon: MdSpaceDashboard, end: true, permission: P.DASHBOARD_VIEW },
+      { label: 'Storefront', path: '/home', icon: MdShoppingBag },
     ],
   },
   {
@@ -66,7 +68,8 @@ export const VENDOR_NAV = [
   {
     label: 'Overview',
     items: [
-      { label: 'Dashboard', path: '/', icon: MdSpaceDashboard, end: true, permission: P.DASHBOARD_VIEW },
+      { label: 'Dashboard', path: '/dashboard', icon: MdSpaceDashboard, end: true, permission: P.DASHBOARD_VIEW },
+      { label: 'Storefront', path: '/home', icon: MdShoppingBag },
     ],
   },
   {

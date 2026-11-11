@@ -12,6 +12,9 @@ export const ROLES = {
   PURCHASING_MANAGER: 'PURCHASING_MANAGER',
   SUPPORT_AGENT: 'SUPPORT_AGENT',
   EMPLOYEE: 'EMPLOYEE',
+
+  /* Storefront (marketplace) customer; its "dashboard" is the shop. */
+  SHOPPER: 'SHOPPER',
 }
 
 export const ROLE_LABELS = {
@@ -28,7 +31,14 @@ export const ROLE_LABELS = {
   PURCHASING_MANAGER: 'Purchasing Manager',
   SUPPORT_AGENT: 'Support Agent',
   EMPLOYEE: 'Employee',
+
+  SHOPPER: 'Shopper',
 }
+
+/* Roles that open an ERP workspace. Shoppers are storefront-only. */
+export const WORKSPACE_ROLES = Object.values(ROLES).filter(
+  (role) => role !== ROLES.SHOPPER,
+)
 
 export const PERMISSIONS = {
   DASHBOARD_VIEW: 'DASHBOARD_VIEW',

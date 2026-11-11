@@ -12,15 +12,16 @@ export function ResetPasswordPage() {
   const location = useLocation()
   const toast = useToast()
   const email = location.state?.email || ''
+  const resetToken = location.state?.resetToken || 'demo-token'
 
   const { register, handleSubmit, formState: { errors }, watch } = useForm({
-    defaultValues: { email, token: 'demo-token', password: '', confirmPassword: '' },
+    defaultValues: { email, token: resetToken, password: '', confirmPassword: '' },
   })
   const password = watch('password')
 
   const onSubmit = async (values) => {
     try {
-      await reset({ email: values.email, token: values.token, newPassword: values.password }).unwrap()
+      await reset({ email: values.email, token: values.token, password: values.password }).unwrap()
       toast.success('Password updated. You can now sign in.')
       navigate('/login')
     } catch (err) {

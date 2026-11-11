@@ -15,9 +15,11 @@ export function ForgotPasswordPage() {
 
   const onSubmit = async (values) => {
     try {
-      await forgot({ email: values.email }).unwrap()
+      // the dev backend returns the reset token in the response — carry it
+      // to the reset form so token validation has a real token to check
+      const res = await forgot({ email: values.email }).unwrap()
       toast.success('If that email exists, a reset link has been sent.')
-      navigate('/reset-password', { state: { email: values.email } })
+      navigate('/reset-password', { state: { email: values.email, resetToken: res?.resetToken } })
     } catch (err) {
       toast.error(err?.data?.message || 'Something went wrong')
     }

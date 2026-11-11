@@ -57,7 +57,8 @@ export const authApi = createApi({
       query: (payload) => ({ url: '/auth/reset-password', method: 'POST', body: payload }),
     }),
     changePassword: builder.mutation({
-      query: (payload) => ({ url: '/auth/change-password', method: 'POST', body: payload }),
+      // the contract route is PATCH /auth/change-password
+      query: (payload) => ({ url: '/auth/change-password', method: 'PATCH', body: payload }),
     }),
     logout: builder.mutation({
       query: () => ({ url: '/auth/logout', method: 'POST' }),

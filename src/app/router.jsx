@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { ProtectedRoute, RoleRoute, TenantRoute } from '../components/guards/RouteGuards.jsx'
 import { AdminLayout } from '../components/layout/AdminLayout.jsx'
 import { VendorLayout } from '../components/layout/VendorLayout.jsx'
@@ -76,6 +76,22 @@ import { MyAttendancePage } from '../features/employee/MyAttendancePage.jsx'
 import { MyLeavePage } from '../features/employee/MyLeavePage.jsx'
 import { MyExpensesPage } from '../features/employee/MyExpensesPage.jsx'
 
+// Storefront (marketplace, merged in from Nex-IV)
+import ShopShell, { ShopPaymentRoute } from '../marketplace/ShopShell.jsx'
+import Home from '../marketplace/pages/Home'
+import Account from '../marketplace/pages/Account'
+import Cart from '../marketplace/pages/Cart'
+import Checkout from '../marketplace/pages/Checkout'
+import Payment from '../marketplace/pages/Payment'
+import Category from '../marketplace/pages/Category'
+import FAQPage from '../marketplace/pages/FAQPage'
+import ProductDetails from '../marketplace/pages/ProductDetails'
+import VendorDetails from '../marketplace/pages/VendorDetails'
+import Wishlist from '../marketplace/pages/Wishlist'
+import AboutUs from '../marketplace/pages/AboutUs'
+import Order from '../marketplace/pages/Order'
+
+import { RootIndexGate } from './RootIndexGate.jsx'
 import { ROLES } from '../constants/roles.js'
 
 const platformRoles = [ROLES.SUPER_ADMIN, ROLES.PLATFORM_SUPPORT]
@@ -83,63 +99,97 @@ const platformRoles = [ROLES.SUPER_ADMIN, ROLES.PLATFORM_SUPPORT]
 export const routes = [
   {
     path: '/',
-    element: <ProtectedRoute />,
     children: [
-      { element: <TenantRoute />, children: [{ element: <VendorLayout />, children: [
-        { index: true, element: <DashboardPage /> },
-        { path: 'crm/leads', element: <LeadListPage /> },
-        { path: 'crm/leads/pipeline', element: <LeadPipelinePage /> },
-        { path: 'crm/leads/:leadId', element: <LeadDetailPage /> },
-        { path: 'customers', element: <CustomerListPage /> },
-        { path: 'customers/:customerId', element: <CustomerDetailPage /> },
-        { path: 'sales/quotes', element: <QuoteListPage /> },
-        { path: 'sales/quotes/:quoteId', element: <QuoteDetailPage /> },
-        { path: 'sales/orders', element: <OrderListPage /> },
-        { path: 'sales/orders/:orderId', element: <OrderDetailPage /> },
-        { path: 'sales/invoices', element: <InvoiceListPage /> },
-        { path: 'sales/invoices/:invoiceId', element: <InvoiceDetailPage /> },
-        { path: 'purchasing/suppliers', element: <SupplierListPage /> },
-        { path: 'purchasing/suppliers/:supplierId', element: <SupplierDetailPage /> },
-        { path: 'purchasing/requests', element: <PurchaseRequestListPage /> },
-        { path: 'purchasing/orders', element: <PurchaseOrderListPage /> },
-        { path: 'purchasing/orders/:poId', element: <PurchaseOrderDetailPage /> },
-        { path: 'purchasing/receipts', element: <GoodsReceiptListPage /> },
-        { path: 'inventory/products', element: <ProductListPage /> },
-        { path: 'inventory/products/:productId', element: <ProductDetailPage /> },
-        { path: 'inventory/stock', element: <StockLevelsPage /> },
-        { path: 'inventory/transfers', element: <TransferListPage /> },
-        { path: 'inventory/adjustments', element: <AdjustmentListPage /> },
-        { path: 'inventory/warehouses', element: <WarehouseListPage /> },
-        { path: 'finance/overview', element: <FinanceOverviewPage /> },
-        { path: 'finance/receivables', element: <ReceivablesPage /> },
-        { path: 'finance/payables', element: <PayablesPage /> },
-        { path: 'finance/payments', element: <PaymentListPage /> },
-        { path: 'finance/payments/:paymentId', element: <PaymentListPage /> },
-        { path: 'finance/expenses', element: <ExpenseListPage /> },
-        { path: 'hr/employees', element: <EmployeeListPage /> },
-        { path: 'hr/employees/:employeeId', element: <EmployeeDetailPage /> },
-        { path: 'hr/attendance', element: <AttendancePage /> },
-        { path: 'hr/leave', element: <LeavePage /> },
-        { path: 'hr/departments', element: <DepartmentPage /> },
-        { path: 'projects', element: <ProjectListPage /> },
-        { path: 'projects/:projectId', element: <ProjectDetailPage /> },
-        { path: 'tasks', element: <TaskListPage /> },
-        { path: 'support/tickets', element: <TicketListPage /> },
-        { path: 'support/tickets/:ticketId', element: <TicketDetailPage /> },
-        { path: 'reports', element: <ReportCenterPage /> },
-        { path: 'settings/users', element: <TeamUsersPage /> },
-        { path: 'settings/audit', element: <AuditLogsPage /> },
-        { path: 'settings/profile', element: <ProfilePage /> },
-        { path: 'settings/preferences', element: <PreferencesPage /> },
-        { path: 'settings/support', element: <SupportPortalPage /> },
-        { path: 'notifications', element: <NotificationsPage /> },
-      ]}]},
-    ],
-  },
-  {
-    path: '/admin',
-    element: <ProtectedRoute />,
-    children: [
+      /* ---------------------------------------------------------------
+       * Landing gate: workspace sessions open their dashboard,
+       * everyone else lands on the storefront home.
+       * ------------------------------------------------------------- */
+      { index: true, element: <RootIndexGate /> },
+
+      /* ---------------------------------------------------------------
+       * Storefront (marketplace) - public routes with the shop header
+       * and footer around them.
+       * ------------------------------------------------------------- */
+      { element: <ShopShell />, children: [
+        { path: 'home', element: <Home /> },
+        { path: 'search', element: <Category /> },
+        { path: 'categories', element: <Category /> },
+        { path: 'categories/:categorySlug', element: <Category /> },
+        { path: 'categories/:categorySlug/:subcategorySlug', element: <Category /> },
+        { path: 'product/:id', element: <ProductDetails /> },
+        { path: 'vendor', element: <Navigate to="/home" replace /> },
+        { path: 'vendor/:vendorId', element: <VendorDetails /> },
+        { path: 'account', element: <Account /> },
+        { path: 'account/:section', element: <Account /> },
+        { path: 'cart', element: <Cart /> },
+        { path: 'checkout', element: <Checkout /> },
+        { path: 'checkout/payment', element: <ShopPaymentRoute /> },
+        { path: 'checkout/payment/add', element: <Payment /> },
+        { path: 'order/:orderId', element: <Order /> },
+        { path: 'wishlist', element: <Wishlist /> },
+        { path: 'faq', element: <FAQPage /> },
+        { path: 'about', element: <AboutUs /> },
+      ]},
+
+      /* ---------------------------------------------------------------
+       * Vendor workspace (ERP)
+       * ------------------------------------------------------------- */
+      { element: <ProtectedRoute />, children: [
+        { element: <TenantRoute />, children: [{ element: <VendorLayout />, children: [
+          { path: 'dashboard', element: <DashboardPage /> },
+          { path: 'crm/leads', element: <LeadListPage /> },
+          { path: 'crm/leads/pipeline', element: <LeadPipelinePage /> },
+          { path: 'crm/leads/:leadId', element: <LeadDetailPage /> },
+          { path: 'customers', element: <CustomerListPage /> },
+          { path: 'customers/:customerId', element: <CustomerDetailPage /> },
+          { path: 'sales/quotes', element: <QuoteListPage /> },
+          { path: 'sales/quotes/:quoteId', element: <QuoteDetailPage /> },
+          { path: 'sales/orders', element: <OrderListPage /> },
+          { path: 'sales/orders/:orderId', element: <OrderDetailPage /> },
+          { path: 'sales/invoices', element: <InvoiceListPage /> },
+          { path: 'sales/invoices/:invoiceId', element: <InvoiceDetailPage /> },
+          { path: 'purchasing/suppliers', element: <SupplierListPage /> },
+          { path: 'purchasing/suppliers/:supplierId', element: <SupplierDetailPage /> },
+          { path: 'purchasing/requests', element: <PurchaseRequestListPage /> },
+          { path: 'purchasing/orders', element: <PurchaseOrderListPage /> },
+          { path: 'purchasing/orders/:poId', element: <PurchaseOrderDetailPage /> },
+          { path: 'purchasing/receipts', element: <GoodsReceiptListPage /> },
+          { path: 'inventory/products', element: <ProductListPage /> },
+          { path: 'inventory/products/:productId', element: <ProductDetailPage /> },
+          { path: 'inventory/stock', element: <StockLevelsPage /> },
+          { path: 'inventory/transfers', element: <TransferListPage /> },
+          { path: 'inventory/adjustments', element: <AdjustmentListPage /> },
+          { path: 'inventory/warehouses', element: <WarehouseListPage /> },
+          { path: 'finance/overview', element: <FinanceOverviewPage /> },
+          { path: 'finance/receivables', element: <ReceivablesPage /> },
+          { path: 'finance/payables', element: <PayablesPage /> },
+          { path: 'finance/payments', element: <PaymentListPage /> },
+          { path: 'finance/payments/:paymentId', element: <PaymentListPage /> },
+          { path: 'finance/expenses', element: <ExpenseListPage /> },
+          { path: 'hr/employees', element: <EmployeeListPage /> },
+          { path: 'hr/employees/:employeeId', element: <EmployeeDetailPage /> },
+          { path: 'hr/attendance', element: <AttendancePage /> },
+          { path: 'hr/leave', element: <LeavePage /> },
+          { path: 'hr/departments', element: <DepartmentPage /> },
+          { path: 'projects', element: <ProjectListPage /> },
+          { path: 'projects/:projectId', element: <ProjectDetailPage /> },
+          { path: 'tasks', element: <TaskListPage /> },
+          { path: 'support/tickets', element: <TicketListPage /> },
+          { path: 'support/tickets/:ticketId', element: <TicketDetailPage /> },
+          { path: 'reports', element: <ReportCenterPage /> },
+          { path: 'settings/users', element: <TeamUsersPage /> },
+          { path: 'settings/audit', element: <AuditLogsPage /> },
+          { path: 'settings/profile', element: <ProfilePage /> },
+          { path: 'settings/preferences', element: <PreferencesPage /> },
+          { path: 'settings/support', element: <SupportPortalPage /> },
+          { path: 'notifications', element: <NotificationsPage /> },
+        ]}]},
+      ]},
+
+    /* ---------------------------------------------------------------
+     * Platform admin
+     * ------------------------------------------------------------- */
+    { path: 'admin', element: <ProtectedRoute />, children: [
       { element: <RoleRoute roles={platformRoles} />, children: [
         { element: <AdminLayout />, children: [
           { index: true, element: <AdminDashboardPage /> },
@@ -153,12 +203,12 @@ export const routes = [
           { path: 'support', element: <SupportPortalPage /> },
         ]},
       ]},
-    ],
-  },
-  {
-    path: '/me',
-    element: <ProtectedRoute />,
-    children: [
+    ]},
+
+    /* ---------------------------------------------------------------
+     * Employee self-service
+     * ------------------------------------------------------------- */
+    { path: 'me', element: <ProtectedRoute />, children: [
       { element: <TenantRoute />, children: [
         { element: <EmployeeLayout />, children: [
           { index: true, element: <EmployeeDashboardPage /> },
@@ -168,30 +218,38 @@ export const routes = [
           { path: 'expenses', element: <MyExpensesPage /> },
         ]},
       ]},
+    ]},
+
+    /* ---------------------------------------------------------------
+     * Auth - one shared system for both halves of the app
+     * ------------------------------------------------------------- */
+    {
+      path: 'login',
+      element: <AuthLayout />,
+      children: [{ index: true, element: <LoginPage /> }],
+    },
+    {
+      path: 'register',
+      element: <AuthLayout />,
+      children: [{ index: true, element: <RegisterPage /> }],
+    },
+    // Legacy storefront path (the marketplace used to mount its own page here).
+    { path: 'auth', element: <Navigate to="/login" replace /> },
+    {
+      path: 'forgot-password',
+      element: <AuthLayout />,
+      children: [{ index: true, element: <ForgotPasswordPage /> }],
+    },
+    {
+      path: 'reset-password',
+      element: <AuthLayout />,
+      children: [{ index: true, element: <ResetPasswordPage /> }],
+    },
+
+    { path: 'no-access', element: <NoAccessPage /> },
+    { path: '*', element: <NotFoundPage /> },
     ],
   },
-  {
-    path: '/login',
-    element: <AuthLayout />,
-    children: [{ index: true, element: <LoginPage /> }],
-  },
-  {
-    path: '/register',
-    element: <AuthLayout />,
-    children: [{ index: true, element: <RegisterPage /> }],
-  },
-  {
-    path: '/forgot-password',
-    element: <AuthLayout />,
-    children: [{ index: true, element: <ForgotPasswordPage /> }],
-  },
-  {
-    path: '/reset-password',
-    element: <AuthLayout />,
-    children: [{ index: true, element: <ResetPasswordPage /> }],
-  },
-  { path: '/no-access', element: <NoAccessPage /> },
-  { path: '*', element: <NotFoundPage /> },
 ]
 
 export const router = createBrowserRouter(routes)

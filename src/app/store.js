@@ -7,6 +7,7 @@ import uiReducer from '../store/uiSlice.js'
 import { authApi } from '../features/auth/api.js'
 import { vendorApi } from '../features/vendor/api.js'
 import { adminApi } from '../features/admin/api.js'
+import { shopApi } from '../marketplace/api/shopApi.js'
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [vendorApi.reducerPath]: vendorApi.reducer,
     [adminApi.reducerPath]: adminApi.reducer,
+    [shopApi.reducerPath]: shopApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
@@ -27,6 +29,7 @@ export const store = configureStore({
       authApi.middleware,
       vendorApi.middleware,
       adminApi.middleware,
+      shopApi.middleware,
     ),
 })
 
@@ -34,4 +37,5 @@ export const apiReducers = [
   authApi,
   vendorApi,
   adminApi,
+  shopApi,
 ]
